@@ -1,0 +1,14 @@
+h1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.map{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 700px;
+    height: 500px;
+    margin-left: 300px;
+}

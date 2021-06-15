@@ -3,10 +3,12 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Home from './Screens/Home/Home';
 import About from './Screens/About/About';
 import Contact from './Screens/Contact/Contact';
+import UserEdit from './Screens/UserEdit/UserEdit'
 import { Fragment } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Navbar, Form, FormControl, Nav } from 'react-bootstrap';
+import { Navbar, Nav } from 'react-bootstrap';
 import logo from "./Assets/WVDOT.png";
+import login from "./Assets/login.png";
 
 function App() {
   return (
@@ -19,10 +21,8 @@ function App() {
                   <Nav.Link as={Link} to="/About">About</Nav.Link>
                   <Nav.Link as={Link} to="/Contact">Contact Us</Nav.Link>
                 </Nav>
-                <Form inline>
-                  <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                  <Button variant="outline-info">Search</Button>
-                </Form>
+                {/*Nav item on right*/}
+                <Nav.Link as={Link} to="/Contact"><img src={login} style={{ width: 30, height: 35}} alt="It didn't load."/></Nav.Link>
             </Navbar>
 
             
@@ -36,6 +36,9 @@ function App() {
                 </Route>
                 <Route exact path="/Contact" component={Contact}>
                   <Contact/>
+                </Route>
+                <Route exact path="/UserEdit" component={UserEdit}>
+                  <UserEdit/>
                 </Route>
               </Switch>
             </Fragment>

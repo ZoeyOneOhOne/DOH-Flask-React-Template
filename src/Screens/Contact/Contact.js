@@ -1,37 +1,36 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './Style.css';
 
-// export default class Contact extends Component {
-
-//     render() {
-//         return (
-//             <main>
-//                 <h1>If you have any questions or concerns please contact us.</h1>
-        
-//                 <form>
-//                   <label>
-//                     Name:
-//                     <input type="text" name="name" />
-//                   </label>
-//                   <input type="submit" value="Submit" />
-//                 </form>
-//             </main>
-//           );
-//     }
-
-// }
-
 function Contact() {
+  const [ID, setID] = useState("0");
+
+    //POST delete a user from DB
+    const delUser = async () =>{
+      fetch('/users', {
+        method: 'DELETE',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ID: ID
+        })
+      }).then(response =>{
+        if(response.ok){
+          return response.json();
+        }
+      }).then(data => console.log(data));
+    }
+
     return (
       <main>
-          <h1>If you have any questions or concerns feel free to contact us.</h1>
-  
+          <h2>Delete a user.</h2>
           <form>
             <label>
-              Name:
-              <input type="text" name="name" />
+              ID:
+              <input type="text" placeholder="ID" onChange={(e) => setID(e.target.value)}/>
             </label>
-            <input type="submit" value="Submit" />
+            <input title="Submit" type="button" onClick={delUser}/>
           </form>
       </main>
     );

@@ -1,50 +1,88 @@
 import React, { Fragment, useState, useEffect } from 'react';
+import { Button, Card } from 'react-bootstrap';
 import './Style.css';
 import centerPic from "../../Assets/transportation.png";
+import logo from "../../Assets/WVDOT.png";
+import road from "../../Assets/shitrd.jpg"
+import EXIF from 'exif-js'
 
 function Home() {
-  const [temp, setTemp] = useState("");
-  const [randoName, setRandoName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [fullData, setFullData] = useState([]);
 
-  useEffect(() => {
-    fetchItems();
-  }, []);
+    //Fetch all forms from database
+    useEffect(() =>{
+      setIsLoading(true);
+      fetch('http://127.0.0.1:5000/forms').then(response =>{
+        if(response.ok){
+          return response.json();
+        }
+        getExif();
+      }).then(data => setFullData(data)).then(setIsLoading(false));
+    }, []);
 
-  useEffect(() =>{
-    fetch('/api').then(response =>{
-      if(response.ok){
-        return response.json();
-      }
-    }).then(data => console.log(data?.Name));
-  }, []);
-
-  useEffect(() =>{
-    fetch('/apiCall2').then(response =>{
-      if(response.ok){
-        return response.json();
-      }
-    }).then(data => setRandoName(data?.name));
-  }, []);
-
-  //Fetch data from the OpenWeatherMaps free api: https://openweathermap.org/api
-  const fetchItems = async () => {
-    const data = await fetch('http://api.openweathermap.org/data/2.5/weather?q=Charleston&appid=4df7cfc15bfeb45b68bc24aeb62af934');
-    const items = await data.json();
-    setTemp(items.main.temp);
-  }
-
-
+    function getExif() {
+      var img1 = road;
+      EXIF.getData(img1, function() {
+        var allMetaData = EXIF.getAllTags(this);
+        var allMetaDataSpan = document.getElementById("allMetaDataSpan");
+        console.log("All data: " + allMetaData, allMetaDataSpan);
+      })}
   //The actual view
+  if (isLoading) {
+    return (
+      <Fragment className="flex-container">
+        <center>
+          <img src={logo} alt="Logo" className="logo"/>
+          <h1>Loading...</h1>
+        </center>
+      </Fragment>
+    );
+  } else{
   return (
     <Fragment>
       <center>
-      <img src={centerPic} alt="Logo"/>
-        <h1>Landing Page</h1>
-        <p>Temperature in Charleston WV (Kelvin): {temp}</p>
-        <p>The rando name form python api was: {randoName}</p>
+      <img src={centerPic} alt="bigLogo"/>
+        <h1>Active Jobs</h1>
+        <br></br>
+
+        <div>
+           {fullData.map(data => <div key={data.ID}> <Card className="cards">
+           <Card.Title>{data.ID}</Card.Title>
+            <Card.Img variant="top" src={road} className="cardImage" />
+            <Card.Text>
+                {data.Comments}
+              </Card.Text>
+            <Card.Body>
+            <div className="lables">
+                <Card.Text className="lableItem">Road</Card.Text>
+                <Card.Text className="lableItem">Mile Marker</Card.Text>
+            </div>
+            <div className="lables">
+                <Card.Text>{data.RoadName}</Card.Text>
+                <Card.Text>{data.MileMarker}</Card.Text>
+            </div>
+            <div className="lables">
+                <Card.Text className="lableItem">Name</Card.Text>
+                <Card.Text className="lableItem">Phone</Card.Text>
+                <Card.Text className="lableItem">Email</Card.Text>
+            </div>
+            <div className="lables">
+                <Card.Text>{data.Name}</Card.Text>
+                <Card.Text>{data.Phone}</Card.Text>
+                <Card.Text>{data.Email}</Card.Text>
+            </div>
+              <Button variant="primary">Work</Button>
+            </Card.Body>
+          </Card> 
+         <br></br>
+          </div>)}  
+       </div>
+       
       </center>
     </Fragment>
   );
+}
 }
 
 export default Home;
