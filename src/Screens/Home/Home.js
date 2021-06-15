@@ -45,11 +45,10 @@ function Home() {
       <img src={centerPic} alt="bigLogo"/>
         <h1>Active Jobs</h1>
         <br></br>
-
         <div>
            {fullData.map(data => <div key={data.ID}> <Card className="cards">
            <Card.Title>{data.ID}</Card.Title>
-            <Card.Img variant="top" src={road} className="cardImage" />
+            <Card.Img variant="top" src={data.Path} className="cardImage" />
             <Card.Text>
                 {data.Comments}
               </Card.Text>

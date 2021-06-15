@@ -7,7 +7,7 @@ from flask_restful import Api, Resource
 from marshmallow import Schema, fields
 from sqlObjToJson import convert_sqlobj_json
 from forms import forms_bp 
-import Models
+import models
 import Schemas
 import Resources
 import boto3
@@ -18,16 +18,16 @@ def create_app():
     CORS(app)
     app.config.from_object(Config)
     app.register_blueprint(forms_bp)
-    Models.init_app(app)
+    models.init_app(app)
     Schemas.init_app(app)
     Resources.init_app(app)
-    s3 = boto3.resource('s3')
+    # s3 = boto3.resource('s3')
     # for bucket in s3.buckets.all():
     #     print(bucket.name)
     
     # Upload amd download images working
-    s3 = boto3.client('s3')
-    s3.download_file('rn-mobile-app-bucket', 'Uploaded Photos/NicolBolas.jpg', 'C:/Users/e096752/Downloads/bolas.jpg')
+    # s3 = boto3.client('s3')
+    # s3.download_file('rn-mobile-app-bucket', 'Uploaded Photos/NicolBolas.jpg', 'C:/Users/e096752/Downloads/bolas.jpg')
     # s3.upload_file('C:/Users/e096752/Downloads/test.png', 'rn-mobile-app-bucket', 'Uploaded Photos/test.png')
 
     return app

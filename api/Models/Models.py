@@ -1,4 +1,4 @@
-from Models import db
+from models import db
 
 class Forms(db.Model):
     __tablename__ = 'ComplaintForms'
@@ -11,6 +11,7 @@ class Forms(db.Model):
     MileMarker = db.Column(db.Float)
     Comments = db.Column(db.String(100))
     Path = db.Column(db.String(4000))
+    # Image = db.Column(db.VARBINARY(max))
 
     def __repr__(self):
         return '<Form %s>' % self.Name

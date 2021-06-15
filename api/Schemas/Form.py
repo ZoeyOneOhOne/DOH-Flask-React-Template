@@ -1,5 +1,5 @@
 from marshmallow import Schema, fields
-from Models.Models import Forms
+from models.Models import Forms
 from Schemas import ma
 
 class FormSchema(ma.Schema):
